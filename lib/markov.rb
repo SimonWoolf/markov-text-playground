@@ -1,21 +1,22 @@
 class Markov
 
+  def self.file_to_string(filename)
+    # class method so stubbable before initialize
+    File.open(filename, "r") do |file|
+      file.read
+    end
+  end
+
   def initialize(filelist)
     @cache = filelist.each_with_object({}) do |file, filecache|
       filecache.merge!(generate_cache(file))
     end
   end
 
-  def file_to_string(filename)
-    File.open(filename, "r") do |file|
-      file.read
-    end
-  end
-
   def doubles(filename)
-    file_to_string(filename).scrub
-                            .split
-                            .each_cons(2)
+    self.class.file_to_string(filename).scrub
+                                       .split
+                                       .each_cons(2)
   end
 
   def generate_cache(filename)
@@ -29,7 +30,7 @@ class Markov
 
   def successor_count(word)
     @cache[word].each_with_object({}) do |successor, counts|
-      counts[successor] ||= 1
+      counts[successor] ||= 0
       counts[successor] += 1
     end
   end
