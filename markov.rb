@@ -24,7 +24,11 @@ def successor_count(word, cache)
   end
 end
 
+def popular_successors_to(word, cache, n=10)
+  successor_count(word, cache).sort_by{|w, count| count}.reverse.first(n)
+end
+
 cache = generate_cache("inputs/foundation.txt")
 
 require 'awesome_print'
-ap successor_count("the", cache).sort_by{|word, count| count}.reverse.first(10)
+ap popular_successors_to("the", cache)
