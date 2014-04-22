@@ -4,8 +4,18 @@ def file_to_string(filename)
   end
 end
 
-def doubles
-  file_to_string("inputs/foundation.txt").scrub.split.each_cons(2)
+def doubles(filename)
+  file_to_string(filename).scrub.split.each_cons(2)
 end
 
-puts doubles.first(20).inspect
+def generate_cache(filename)
+  doubles(filename).each_with_object({}) do |(first, second), cache|
+    cache[first] ||= []
+    cache[first] << second
+  end
+end
+
+require 'awesome_print'
+ap generate_cache("inputs/foundation.txt")['outer']
+
+
