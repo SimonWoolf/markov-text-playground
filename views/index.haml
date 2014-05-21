@@ -1,1 +1,18 @@
-%p= @test.inspect
+!!!
+%html
+  %head
+    %title Markov Play Generator
+    %link{rel: "stylesheet", href: "stylesheets/styles.css"}
+  %body
+    %header
+      %h1 Markov Play Generator
+    %main
+      #filelist 
+        %form
+          %label
+            %input{type: 'checkbox', name: 'namef', value: 'Fo'} Foundation
+          %label
+            %input{type: 'checkbox', name: 'nameh', value: 'Ho'} Holmes
+          %input{type: 'submit', value: 'Analyze'}
+      #analyze
+        Select inputs and press 'Analyze'

@@ -1,1 +1,19 @@
-@import 'jeet/index'
+@import vendor/normalize.css
+@import jeet/index
+
+header
+  text-align: center
+
+
+main
+  @include center($max_width: 1200px)
+
+#filelist
+  @include col(2/3)
+  label
+    display: block
+    line-height: 25px
+    
+
+#analyze
+  @include col(1/3)

@@ -1,4 +1,6 @@
 /.bundle
 /.sass-cache
-*.css
+# no compiled css from sass
+/public/stylesheets/*.css
+/public/stylesheets/jeet/*.css
 /inputs
