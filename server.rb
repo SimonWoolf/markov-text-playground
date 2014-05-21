@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'haml'
 require 'better_errors'
+require_relative 'lib/markov'
 
 # Settings
 set :partial_template_engine, :haml
@@ -12,7 +13,9 @@ end
 
 # Controllers
 get '/' do
-  "#{ENV['RACK_ENV']}"
+  markov = Markov.new(["./inputs/foundation.txt"])
+  @test = markov.popular_successors_to("the")
+  haml :index
 end
 
 # Helpers

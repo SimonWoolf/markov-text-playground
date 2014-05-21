@@ -1,2 +1,4 @@
-inputs/
-.bundle/
+/.bundle
+/.sass-cache
+*.css
+/inputs
