@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/partial'
 require 'haml'
 require 'better_errors'
 require_relative 'lib/markov'

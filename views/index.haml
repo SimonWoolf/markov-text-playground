@@ -1,21 +1,9 @@
-!!!
-%html
-  %head
-    %title Markov Play Generator
-    %link{rel: "stylesheet", href: "stylesheets/styles.css"}
-  %body
-    %header
-      %h1 Markov Play Generator
-    %main
-      #filelist 
-        %form#filepicker
-          %label
-            %input{type: 'checkbox', name: 'file', value:'foundation'} Foundation
-          %label
-            %input{type: 'checkbox', name: 'file', value:'holmes'} Holmes
-          %input{type: 'submit', value: 'Analyze'}
-      #analyze
-        Select inputs and press 'Analyze'
-
-    %script{type: "text/javascript", src: "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
-    %script{type: "text/javascript", src: "javascript/app.js"}
+#filelist 
+  %form#filepicker
+    %label
+      %input{type: 'checkbox', name: 'file', value:'foundation'} Foundation
+    %label
+      %input{type: 'checkbox', name: 'file', value:'holmes'} Holmes
+    %input{type: 'submit', value: 'Analyze'}
+#analyze
+  Select inputs and press 'Analyze'

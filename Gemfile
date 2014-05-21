@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "sinatra"
+gem "sinatra-partial"
 gem "thin"
 gem "haml"
 gem "sass"
