@@ -23,4 +23,8 @@ describe Markov do
     assert { @markov.successor_count("the") == {"quick" => 2, "two" => 1} }
   end
 
+  specify 'popular_successors_to' do
+    assert { @markov.popular_successors_to('the') == [["quick", 2], ["two", 1]] }
+  end
+
 end
