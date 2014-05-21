@@ -13,7 +13,7 @@ class Markov
     end
   end
 
-  def doubles(filename)
+  def doubles_from_file(filename)
     self.class.file_to_string(filename).scrub
                                        .split
                                        .each_cons(2)
@@ -22,7 +22,7 @@ class Markov
   def generate_cache(filename)
     # cache is a hash with values an array of all words occuring 
     # immediately after the key
-    doubles(filename).each_with_object({}) do |(first, second), cache|
+    doubles_from_file(filename).each_with_object({}) do |(first, second), cache|
       cache[first] ||= []
       cache[first] << second
     end
