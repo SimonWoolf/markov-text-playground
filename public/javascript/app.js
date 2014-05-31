@@ -1,4 +1,8 @@
 $(document).ready(function(){
+  if ($("#analyze")[0].innerHTML.indexOf("✔") > -1) {
+    $('#words').slideDown();
+  };
+
   $('#filepicker').on('submit', function(event){
     event.preventDefault();
 
@@ -10,8 +14,15 @@ $(document).ready(function(){
     $.ajax({
       type: "POST",
       url: "/",
-      data: 'texts=' + texts
+      data: 'texts=' + texts,
+      success: markovReady(texts)
     })
   });
+
+  function markovReady(texts) {
+    $("#analyze")[0].innerHTML = "✔ Dictionary built from: " +
+                                 texts.join(", ");
+    $('#words').slideDown();
+  }
 
 });

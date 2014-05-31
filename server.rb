@@ -17,9 +17,11 @@ get '/' do
   markov = MarkovCache::markov
   if markov.nil?
     @status = "Select inputs and press 'Analyze'"
+    @ready = false
   else
     textstring = MarkovCache::texts.join(", ")
     @status = "✔ Dictionary built from: #{textstring}"
+    @ready = true
   end
   haml :index
 end
