@@ -15,15 +15,20 @@ end
 # Controllers
 get '/' do
   markov = MarkovCache::markov
-  @test = markov.popular_successors_to("the") unless markov.nil?
-  puts @test.inspect
+  if markov.nil?
+    @status = "Select inputs and press 'Analyze'"
+  else
+    textstring = MarkovCache::texts.join(", ")
+    @status = "✔ Dictionary built from: #{textstring}"
+  end
   haml :index
 end
 
 post '/' do
-  params["texts"].split(",")
-  markov = Markov.new(["./inputs/foundation.txt"])
+  texts = params["texts"].split(",")
+  markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
   MarkovCache::markov = markov
+  MarkovCache::texts = texts
   redirect '/'
 end
 
@@ -38,12 +43,21 @@ class MarkovCache
   # ever changes
 
   @@markov = nil
+  @@texts = nil
 
   def self.markov=(markov)
     @@markov = markov
   end
 
+  def self.texts=(texts)
+    @@texts = texts
+  end
+
   def self.markov
     @@markov
+  end
+
+  def self.texts
+    @@texts
   end
 end
