@@ -19,6 +19,11 @@ get '/' do
   haml :index
 end
 
+post '/' do
+  texts = params["texts"].split(",")
+  puts texts
+end
+
 # Helpers
 helpers do
 end
