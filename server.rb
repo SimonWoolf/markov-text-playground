@@ -14,16 +14,36 @@ end
 
 # Controllers
 get '/' do
-  markov = Markov.new(["./inputs/foundation.txt"])
-  @test = markov.popular_successors_to("the")
+  markov = MarkovCache::markov
+  @test = markov.popular_successors_to("the") unless markov.nil?
+  puts @test.inspect
   haml :index
 end
 
 post '/' do
-  texts = params["texts"].split(",")
-  puts texts
+  params["texts"].split(",")
+  markov = Markov.new(["./inputs/foundation.txt"])
+  MarkovCache::markov = markov
+  redirect '/'
 end
 
 # Helpers
 helpers do
+end
+
+class MarkovCache
+  # Persistant cache of the current markov object.
+  # NB we assume this app will only ever have
+  # one user - need to move to session-based cache if that
+  # ever changes
+
+  @@markov = nil
+
+  def self.markov=(markov)
+    @@markov = markov
+  end
+
+  def self.markov
+    @@markov
+  end
 end
