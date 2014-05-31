@@ -1,5 +1,5 @@
 %section
-  #filelist 
+  #filelist
     %form#filepicker
       %label
         %input{type: 'checkbox', name: 'file', value:'foundation'} Foundation
@@ -13,10 +13,12 @@
 %section#words
   #wordfield
     Type stuff!
-    %textarea{rows: 20, cols: 50}
+    %textarea#form{rows: 20, cols: 50}
       = @test.to_s
   #suggestions
     %h2 Suggestions:
     %ul
       %li Stuff!
       %li Another!
+
+#msgs

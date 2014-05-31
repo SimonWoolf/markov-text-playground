@@ -41,4 +41,12 @@ class Markov
                                 .first(n)
   end
 
+  def random_successor_to(word)
+    @cache[word].sample
+  end
+
+  def random_word
+    @cache.keys.sample
+  end
+
 end

@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem "sinatra"
 gem "sinatra-partial"
+gem "sinatra-websocket"
 gem "thin"
 gem "haml"
 gem "sass"

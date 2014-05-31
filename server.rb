@@ -1,11 +1,14 @@
 require 'sinatra'
 require 'sinatra/partial'
+require 'sinatra-websocket'
 require 'haml'
 require 'better_errors'
 require_relative 'lib/markov'
 
 # Settings
 set :partial_template_engine, :haml
+set :server, 'thin'
+set :sockets, []
 configure :development do
   use BetterErrors::Middleware
   BetterErrors.application_root = File.expand_path('.', __FILE__)
@@ -14,16 +17,20 @@ end
 
 # Controllers
 get '/' do
-  markov = MarkovCache::markov
-  if markov.nil?
-    @status = "Select inputs and press 'Analyze'"
-    @ready = false
+  if !request.websocket?
+    markov = MarkovCache::markov
+    if markov.nil?
+      @status = "Select inputs and press 'Analyze'"
+      @ready = false
+    else
+      textstring = MarkovCache::texts.join(", ")
+      @status = "✔ Dictionary built from: #{textstring}"
+      @ready = true
+    end
+    haml :index
   else
-    textstring = MarkovCache::texts.join(", ")
-    @status = "✔ Dictionary built from: #{textstring}"
-    @ready = true
+    process_ws(request)
   end
-  haml :index
 end
 
 post '/' do
@@ -32,6 +39,22 @@ post '/' do
   MarkovCache::markov = markov
   MarkovCache::texts = texts
   redirect '/'
+end
+
+def process_ws(request)
+  request.websocket do |ws|
+    ws.onopen do
+      ws.send("Hello World!")
+      settings.sockets << ws
+    end
+    ws.onmessage do |msg|
+      EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
+    end
+    ws.onclose do
+      warn("websocket closed")
+      settings.sockets.delete(ws)
+    end
+  end
 end
 
 # Helpers
