@@ -37,8 +37,8 @@ $(document).ready(function(){
     ws.onclose   = function()  {  };
     ws.onmessage = function(m) { showSuggestions(m.data); };
 
-    $('#input').on('keyup', function(event){
-      caretPosition = getCaretPosition(event.target);
+    $('#input').on('keyup focus', function(event){
+      caretPosition = getCaretPosition();
       word = returnWord(event.target.value, caretPosition);
       ws.send(word);
     })
@@ -49,16 +49,28 @@ $(document).ready(function(){
     var container = $('#suggestions ul')
     container.empty()
     suggestions.forEach(function(sugg){
-      var suggestionHtml = "<li>" +
-                           sugg[0] +
-                           " (" +
+      var suggestionHtml = "<li><button class='suggestion' value='" +
+                           sugg[0] + "'>" + sugg[0] +
+                           "</button> (" +
                            sugg[1] +
                            " occurences)</li>";
       container.append(suggestionHtml);
+    });
+    $('button.suggestion').on('click', function(e){
+      insertAtCaret(this.value);
     })
   }
 
-  function getCaretPosition(ctrl) {
+  function insertAtCaret(word) {
+    var textAreaTxt = jQuery("#input").val();
+    var caretPos = getCaretPosition()
+    $("#input").val(textAreaTxt.substring(0, caretPos) + " " +
+                    word + textAreaTxt.substring(caretPos))
+               .focus();
+  }
+
+  function getCaretPosition() {
+    ctrl = $('#input')[0]
     var CaretPos = 0;   // IE Support
     if (document.selection) {
       ctrl.focus();
