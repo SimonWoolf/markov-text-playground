@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/partial'
 require 'sinatra-websocket'
 require 'haml'
+require 'json'
 require 'better_errors' if development?
 require_relative 'lib/markov'
 require 'pry'
@@ -58,6 +59,7 @@ end
 def process_ws(request)
   request.websocket do |ws|
     ws.onopen do
+      warn("websocket open")
       settings.sockets << ws
     end
     ws.onmessage do |word|
