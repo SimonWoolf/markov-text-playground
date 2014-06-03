@@ -38,7 +38,7 @@ $(document).ready(function(){
     var ws = new WebSocket('ws://' + window.location.host + window.location.pathname);
     ws.onopen    = function()  { show('websocket opened'); };
     ws.onclose   = function()  { show('websocket closed'); }
-    ws.onmessage = function(m) { show('websocket message: ' +  m.data); };
+    ws.onmessage = function(m) { showSuggestions(m.data); };
 
     $('#input').on('keyup', function(event){
       caretPosition = getCaretPosition(event.target);
@@ -46,6 +46,20 @@ $(document).ready(function(){
       ws.send(word);
     })
   };
+
+  function showSuggestions(data) {
+    var suggestions = JSON.parse(data)
+    var container = $('#suggestions ul')
+    container.empty()
+    suggestions.forEach(function(sugg){
+      var suggestionHtml = "<li>" +
+                           sugg[0] +
+                           " (" +
+                           sugg[1] +
+                           " occurences)</li>";
+      container.append(suggestionHtml);
+    })
+  }
 
   function getCaretPosition(ctrl) {
     var CaretPos = 0;   // IE Support

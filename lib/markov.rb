@@ -36,6 +36,7 @@ class Markov
   end
 
   def popular_successors_to(word, n=10)
+    return nil unless @cache.include? word
     successor_count(word).sort_by{|w, count| count}
                                 .reverse
                                 .first(n)

@@ -6,6 +6,7 @@ gem "sinatra-websocket"
 gem "thin"
 gem "haml"
 gem "sass"
+gem 'pry'
 
 group :development do
   gem "shotgun"

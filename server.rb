@@ -4,6 +4,7 @@ require 'sinatra-websocket'
 require 'haml'
 require 'better_errors'
 require_relative 'lib/markov'
+require 'pry'
 
 # Settings
 set :partial_template_engine, :haml
@@ -44,12 +45,15 @@ end
 def process_ws(request)
   request.websocket do |ws|
     ws.onopen do
-      ws.send("Hello World!")
       settings.sockets << ws
     end
-    ws.onmessage do |msg|
-      #EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
-      puts msg
+    ws.onmessage do |word|
+      markov = MarkovCache::markov
+      puts markov.class
+      unless markov.nil?
+        successors = markov.popular_successors_to(word)
+        EM.next_tick { settings.sockets.each{|s| s.send(successors.to_json) } }
+      end
     end
     ws.onclose do
       warn("websocket closed")
