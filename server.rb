@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sinatra/partial'
 require 'sinatra-websocket'
 require 'haml'
-require 'better_errors'
+require 'better_errors' if development?
 require_relative 'lib/markov'
 require 'pry'
 
