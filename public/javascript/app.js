@@ -3,9 +3,6 @@ $(document).ready(function(){
     $('#words').slideDown();
   };
 
-  $('#input').on('keyup', function(event){
-    AlertPrevWord();
-  })
 
   webSockets();
 
@@ -43,18 +40,14 @@ $(document).ready(function(){
     ws.onclose   = function()  { show('websocket closed'); }
     ws.onmessage = function(m) { show('websocket message: ' +  m.data); };
 
-    var sender = function(f){
-      var input     = document.getElementById('input');
-      //input.onclick = function(){ input.value = "" };
-      f.onsubmit    = function(){
-        ws.send(input.value);
-        input.value = "send a message";
-        return false;
-      }
-    }(document.getElementById('form'));
+    $('#input').on('keyup', function(event){
+      caretPosition = getCaretPosition(event.target);
+      word = returnWord(event.target.value, caretPosition);
+      ws.send(word);
+    })
   };
 
-  function GetCaretPosition(ctrl) {
+  function getCaretPosition(ctrl) {
     var CaretPos = 0;   // IE Support
     if (document.selection) {
       ctrl.focus();
@@ -68,7 +61,7 @@ $(document).ready(function(){
     return (CaretPos);
   }
 
-  function ReturnWord(text, caretPos) {
+  function returnWord(text, caretPos) {
     var index = text.indexOf(caretPos);
     var preText = text.substring(0, caretPos);
     if (preText.indexOf(" ") > 0) {
@@ -81,12 +74,6 @@ $(document).ready(function(){
   }
 
   function AlertPrevWord() {
-    var text = document.getElementById("input");
-    var caretPos = GetCaretPosition(text)
-
-    console.log(caretPos);
-    var word = ReturnWord(text.value, caretPos);
-    console.log(word);
   }
 
 });

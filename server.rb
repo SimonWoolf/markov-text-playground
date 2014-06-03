@@ -48,7 +48,8 @@ def process_ws(request)
       settings.sockets << ws
     end
     ws.onmessage do |msg|
-      EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
+      #EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
+      puts msg
     end
     ws.onclose do
       warn("websocket closed")
