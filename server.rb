@@ -18,28 +18,34 @@ end
 
 # Controllers
 get '/' do
-  if !request.websocket?
-    markov = MarkovCache::markov
-    if markov.nil?
-      @status = "Select inputs and press 'Analyze'"
-      @ready = false
-    else
-      textstring = MarkovCache::texts.join(", ")
-      @status = "✔ Dictionary built from: #{textstring}"
-      @ready = true
-    end
-    haml :index
-  else
+  if request.websocket?
     process_ws(request)
+  else
+    set_status
+    haml :index
   end
 end
 
 post '/' do
   texts = params["texts"].split(",")
-  markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
-  MarkovCache::markov = markov
-  MarkovCache::texts = texts
+  puts texts.inspect
+  unless texts.empty?
+    markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
+    MarkovCache::markov = markov
+    MarkovCache::texts = texts
+  end
   redirect '/'
+end
+
+# helpers
+def set_status
+  markov = MarkovCache::markov
+  if markov.nil?
+    @status = "Select inputs and press 'Analyze'"
+  else
+    textstring = MarkovCache::texts.join(", ")
+    @status = "✔ Dictionary built from: #{textstring}"
+  end
 end
 
 def process_ws(request)

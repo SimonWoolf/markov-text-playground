@@ -3,7 +3,6 @@ $(document).ready(function(){
     $('#words').slideDown();
   };
 
-
   webSockets();
 
   $('#filepicker').on('submit', function(event){
@@ -14,12 +13,16 @@ $(document).ready(function(){
         return this.value
       }).get();
 
-    $.ajax({
-      type: "POST",
-      url: "/",
-      data: 'texts=' + texts,
-      success: markovReady(texts)
-    })
+    if(texts.length != 0) {
+      $.ajax({
+        type: "POST",
+        url: "/",
+        data: 'texts=' + texts,
+        success: markovReady(texts)
+      })
+    } else {
+      alert("Try selecting one or more texts. Silly zander")
+    }
   });
 
   function markovReady(texts) {
