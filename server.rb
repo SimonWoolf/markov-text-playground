@@ -63,7 +63,7 @@ def process_ws(request)
     ws.onmessage do |word|
       markov = MarkovCache::markov
       unless markov.nil?
-        successors = markov.popular_successors_to(word)
+        successors = markov.popular_successors_to(word.strip)
         EM.next_tick { settings.sockets.each{|s| s.send(successors.to_json) } }
       end
     end

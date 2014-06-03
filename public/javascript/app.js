@@ -98,10 +98,12 @@ $(document).ready(function(){
   }
 
   function returnWord(text, caretPos) {
-    var index = text.indexOf(caretPos);
     var preText = text.substring(0, caretPos);
-    if (preText.indexOf(" ") > 0) {
-      var words = preText.split(" ");
+    if (preText.indexOf(" ") > -1 ) {
+      var words = preText.split(/\s+/)
+                         .filter(function(w){
+                           return w.length > 0;
+                         });
       return words[words.length - 1]; //return last word
     }
     else {
