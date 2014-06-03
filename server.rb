@@ -49,7 +49,6 @@ def process_ws(request)
     end
     ws.onmessage do |word|
       markov = MarkovCache::markov
-      puts markov.class
       unless markov.nil?
         successors = markov.popular_successors_to(word)
         EM.next_tick { settings.sockets.each{|s| s.send(successors.to_json) } }
@@ -60,10 +59,6 @@ def process_ws(request)
       settings.sockets.delete(ws)
     end
   end
-end
-
-# Helpers
-helpers do
 end
 
 class MarkovCache

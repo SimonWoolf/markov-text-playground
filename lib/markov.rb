@@ -20,7 +20,7 @@ class Markov
   end
 
   def generate_cache(filename)
-    # cache is a hash with values an array of all words occuring 
+    # cache is a hash with values an array of all words occuring
     # immediately after the key
     doubles_from_file(filename).each_with_object({}) do |(first, second), cache|
       cache[first] ||= []
