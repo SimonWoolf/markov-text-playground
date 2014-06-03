@@ -25,6 +25,18 @@ $(document).ready(function(){
     }
   });
 
+  $("#gimme").on('click', function(event) {
+    $.ajax({
+      type: "GET",
+      url: "/randomword",
+      success: function(response){
+        insertAtCaret(response);
+        // focus input so that suggestions update
+        $('#input').focus();
+      }
+    })
+  });
+
   function markovReady(texts) {
     $("#analyze")[0].innerHTML = "✔ Dictionary built from: " +
                                  texts.join(", ");
@@ -40,6 +52,7 @@ $(document).ready(function(){
     $('#input').on('keyup focus', function(event){
       caretPosition = getCaretPosition();
       word = returnWord(event.target.value, caretPosition);
+      console.log(word);
       ws.send(word);
     })
   };
@@ -56,7 +69,7 @@ $(document).ready(function(){
                            " occurences)</li>";
       container.append(suggestionHtml);
     });
-    $('button.suggestion').on('click', function(e){
+    $('button.suggestion').on('click', function(){
       insertAtCaret(this.value);
     })
   }

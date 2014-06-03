@@ -32,6 +32,12 @@ post '/' do
   redirect '/'
 end
 
+get '/randomword' do
+  markov = MarkovCache::markov
+  return if markov.nil?
+  return markov.random_word
+end
+
 # helpers
 def create_markov(texts)
   markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
