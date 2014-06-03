@@ -28,16 +28,17 @@ end
 
 post '/' do
   texts = params["texts"].split(",")
-  puts texts.inspect
-  unless texts.empty?
-    markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
-    MarkovCache::markov = markov
-    MarkovCache::texts = texts
-  end
+  create_markov(texts) unless texts.empty?
   redirect '/'
 end
 
 # helpers
+def create_markov(texts)
+  markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
+  MarkovCache::markov = markov
+  MarkovCache::texts = texts
+end
+
 def set_status
   markov = MarkovCache::markov
   if markov.nil?
