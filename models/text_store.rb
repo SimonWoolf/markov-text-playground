@@ -13,7 +13,7 @@ class TextStore
   def list(refresh = false)
     param = :reload if refresh
     @bucket.objects(param).map(&:path).map do |path|
-      path[21..-1] # strip the bucket name off the path
+      path[21..-5] # strip the bucket name and extension
     end
   end
 

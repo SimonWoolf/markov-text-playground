@@ -7,9 +7,9 @@ class Markov
     end
   end
 
-  def initialize(filelist)
-    @cache = filelist.each_with_object({}) do |file, filecache|
-      filecache.merge!(generate_cache(file))
+  def initialize(textlist)
+    @cache = textlist.each_with_object({}) do |text, textcache|
+      textcache.merge!(generate_cache(text))
     end
   end
 
@@ -19,10 +19,14 @@ class Markov
                                        .each_cons(2)
   end
 
-  def generate_cache(filename)
+  def doubles_from_text(string)
+    string.scrub.split.each_cons(2)
+  end
+
+  def generate_cache(text)
     # cache is a hash with values an array of all words occuring
     # immediately after the key
-    doubles_from_file(filename).each_with_object({}) do |(first, second), cache|
+    doubles_from_text(text).each_with_object({}) do |(first, second), cache|
       cache[first] ||= []
       cache[first] << second
     end

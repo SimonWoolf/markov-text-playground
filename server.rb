@@ -4,6 +4,7 @@ require 'sinatra-websocket'
 require 'haml'
 require 'json'
 require 'better_errors' if development?
+require 'pry' if development?
 
 # Settings
 set :partial_template_engine, :haml
@@ -16,7 +17,7 @@ end
 
 # Models & lib code
 require_relative 'lib/markov'
-require_relative 'models/texts'
+require_relative 'models/text_store'
 require_relative 'models/markov_cache'
 
 # Controllers
@@ -32,8 +33,8 @@ get '/' do
 end
 
 post '/' do
-  texts = params["texts"].split(",")
-  create_markov(texts) unless texts.empty?
+  textlist = params["texts"].split(",")
+  create_markov(textlist) unless textlist.empty?
   redirect '/'
 end
 
@@ -44,10 +45,11 @@ get '/randomword' do
 end
 
 # helpers
-def create_markov(texts)
-  markov = Markov.new(texts.map {|t| "./inputs/#{t}.txt"})
+def create_markov(textlist)
+  markov = Markov.new(textlist.map do |text|
+    MarkovCache::texts.get text
+  end)
   MarkovCache::markov = markov
-  MarkovCache::texts = texts
 end
 
 def set_status
@@ -55,7 +57,7 @@ def set_status
   if markov.nil?
     @status = "Select inputs and press 'Analyze'"
   else
-    textstring = MarkovCache::texts.join(", ")
+    textstring = MarkovCache::texts.list.join(", ")
     @status = "✔ Dictionary built from: #{textstring}"
   end
 end

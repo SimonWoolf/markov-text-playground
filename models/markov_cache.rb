@@ -11,10 +11,6 @@ class MarkovCache
     @@markov = markov
   end
 
-  def self.texts=(texts)
-    @@texts = texts
-  end
-
   def self.markov
     @@markov
   end
