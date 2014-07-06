@@ -1,4 +1,3 @@
-
 class MarkovCache
   # Persistant cache of the current markov object.
   # NB we assume this app will only ever have
@@ -6,7 +5,7 @@ class MarkovCache
   # ever changes
 
   @@markov = nil
-  @@texts = nil
+  @@texts = TextStore.new
 
   def self.markov=(markov)
     @@markov = markov

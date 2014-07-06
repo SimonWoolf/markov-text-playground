@@ -1,6 +1,6 @@
 require 'aws/s3'
 
-class Texts
+class TextStore
   def initialize
     AWS::S3::Base.establish_connection!({
       access_key_id: ENV['MARKOV_S3_ID'],

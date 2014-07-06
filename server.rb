@@ -16,14 +16,16 @@ end
 
 # Models & lib code
 require_relative 'lib/markov'
-require_relative 'models/markov_cache'
 require_relative 'models/texts'
+require_relative 'models/markov_cache'
 
 # Controllers
 get '/' do
   if request.websocket?
     process_ws(request)
   else
+    text_store = MarkovCache::texts
+    @texts = text_store.list
     set_status
     haml :index
   end

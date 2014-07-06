@@ -1,10 +1,9 @@
 %section
   #filelist
     %form#filepicker
-      %label
-        %input{type: 'checkbox', name: 'file', value:'foundation'} Foundation
-      %label
-        %input{type: 'checkbox', name: 'file', value:'holmes'} Holmes
+      - @texts.each do |textname|
+        %label
+          %input{type: 'checkbox', name: 'file', value: textname}= textname
       %input{type: 'submit', value: 'Analyze'}
   #analyze
     = @status
