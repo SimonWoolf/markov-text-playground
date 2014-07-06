@@ -4,7 +4,6 @@ require 'sinatra-websocket'
 require 'haml'
 require 'json'
 require 'better_errors' if development?
-require 'aws/s3'
 
 # Settings
 set :partial_template_engine, :haml
@@ -18,7 +17,7 @@ end
 # Models & lib code
 require_relative 'lib/markov'
 require_relative 'models/markov_cache'
-
+require_relative 'models/texts'
 
 # Controllers
 get '/' do
