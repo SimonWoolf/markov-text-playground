@@ -8,9 +8,11 @@ gem "sinatra-websocket"
 gem "thin"
 gem "haml"
 gem "sass"
-gem 'pry'
+gem 'aws-s3'
 
 group :development do
+  gem 'pry'
+  gem 'awesome_print'
   gem "shotgun"
   gem "better_errors"
 end

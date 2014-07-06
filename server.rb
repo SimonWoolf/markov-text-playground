@@ -5,7 +5,7 @@ require 'haml'
 require 'json'
 require 'better_errors' if development?
 require_relative 'lib/markov'
-require 'pry'
+require 'aws/s3'
 
 # Settings
 set :partial_template_engine, :haml
