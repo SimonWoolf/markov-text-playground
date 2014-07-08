@@ -44,6 +44,11 @@ get '/randomword' do
   return markov.random_word
 end
 
+get '/texts' do
+  @texts = MarkovCache::texts.list
+
+end
+
 # helpers
 def create_markov(textlist)
   markov = Markov.new(textlist.map do |text|
